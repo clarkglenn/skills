@@ -1,0 +1,3 @@
+interface:
+  display_name: "Agent Commit"
+  short_description: "Explain why, then changes, then verification"

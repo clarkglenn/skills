@@ -1,13 +1,13 @@
 ---
-name: commit-messages
-description: Write or revise concise, fluent Git commit messages that explain the motivation, implementation, and verification. Use when preparing a commit, amending its message, or drafting commit text.
+name: agent-commit
+description: Write or revise concise, fluent Git commit messages that explain why first, then the changes and approach, then verification. Use when preparing a commit, amending its message, or drafting commit text.
 ---
 
-# Commit Messages
+# Agent Commit
 
 Write for a future maintainer who has the commit but not the conversation.
-Prioritize why the change matters, how the result was achieved, and what evidence
-shows that expected behavior still works.
+Explain why the change matters first, then what changed and how it was achieved,
+and finally how the results were verified.
 
 ## Ground the message
 
@@ -19,11 +19,13 @@ motivation from the user's intent and the evidence rather than inventing one.
 ## Write fluent, concise prose
 
 - Start with a short, specific, imperative subject describing the outcome.
-- Explain the concrete problem or desired improvement early in the body.
-- Connect the approach to that purpose. Include technical details that explain
-  the result or a meaningful decision; skip file inventories and work chronology.
-- Use natural paragraphs, usually one brief explanation and one verification
-  paragraph. Avoid mechanical `What:`, `Why:`, and `How:` labels or a rigid template.
+- Begin the body with why: the concrete problem, motivation, or desired improvement.
+- Next describe what changed and how the implementation achieves that purpose.
+  Include technical details that explain the result or a meaningful decision;
+  skip file inventories and work chronology.
+- Finish with how the results were verified and any material verification limits.
+- Keep this order even in a short message. Use natural paragraphs rather than
+  mechanical `Why:`, `What:`, and `Verification:` labels; paragraph count is flexible.
 - Scale detail to the change. Use bullets when several distinct changes need
   them, and honor explicit user requests and established repository conventions.
 
@@ -45,9 +47,12 @@ session; do not invent results or run unnecessary checks just to fill the messag
 ```text
 Replace Swagger with Scalar and reuse backend test hosts
 
-Move API exploration to Scalar while preserving existing bookmarks and bearer
-authentication. Generate the schema with .NET OpenAPI and reduce repeated test
-setup by sharing read-only hosts, using a builder for isolated scenarios.
+Provide a Scalar API reference while preserving existing bookmarks and bearer
+authentication, and reduce repeated backend test setup.
+
+Replace Swashbuckle with Scalar and .NET OpenAPI, redirect Swagger bookmarks,
+and keep pasted bearer tokens. Share hosts for read-only tests and use a
+builder for isolated scenarios.
 
 All 48 isolated backend tests pass with warnings treated as errors. Browser
 checks with test authentication verified redirects and bearer headers; live
