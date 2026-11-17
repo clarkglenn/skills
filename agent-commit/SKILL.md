@@ -1,6 +1,6 @@
 ---
 name: agent-commit
-description: Write or revise concise, fluent Git commit messages that explain why first, then the changes and approach, then verification. Use when preparing a commit, amending its message, or drafting commit text.
+description: Write or revise Git commit messages grounded in task context, explaining why, what changed, and verification, with a body targeting at most 500 characters. Use when preparing a commit, amending its message, or drafting commit text.
 ---
 
 # Agent Commit
@@ -11,10 +11,17 @@ and finally how the results were verified.
 
 ## Ground the message
 
-Read the relevant conversation and the final changes being committed. For an
-amend, inspect the existing commit as well. Describe the final implementation;
-omit abandoned approaches unless they explain a remaining tradeoff. Derive the
-motivation from the user's intent and the evidence rather than inventing one.
+Before drafting, collect the task context: the user's original goal, the observed
+problem, accepted decisions and constraints, and the verification performed.
+Read the relevant conversation, including corrections and changes of scope.
+Consult linked issues, PR descriptions, repository documentation, or recent
+history when they contain context needed to explain the change.
+
+Inspect the actual changes being committed to confirm the final implementation;
+changed files and diff hunks alone do not explain why the work was needed. For
+an amend, inspect the existing commit as well. Omit abandoned approaches unless
+they explain a remaining tradeoff. Ground the motivation in collected evidence;
+if it is missing, recover it from available context rather than inventing it.
 
 ## Write fluent, concise prose
 
@@ -28,6 +35,10 @@ motivation from the user's intent and the evidence rather than inventing one.
   mechanical `Why:`, `What:`, and `Verification:` labels; paragraph count is flexible.
 - Scale detail to the change. Use bullets when several distinct changes need
   them, and honor explicit user requests and established repository conventions.
+- Target a body of at most 500 characters, excluding the title and its separating
+  blank line. Count spaces and newlines in the body before finalizing, and trim
+  repetition to fit. Keep the motivation, key change, verification, and material
+  limits within that budget; honor explicit requests for more detail.
 
 ## Describe verification honestly
 
@@ -45,18 +56,15 @@ session; do not invent results or run unnecessary checks just to fill the messag
 ## Example
 
 ```text
-Replace Swagger with Scalar and reuse backend test hosts
+Restore UIAPI documentation in Scalar
 
-Provide a Scalar API reference while preserving existing bookmarks and bearer
-authentication, and reduce repeated backend test setup.
+Developers lost the UIAPI reference during the Scalar migration.
 
-Replace Swashbuckle with Scalar and .NET OpenAPI, redirect Swagger bookmarks,
-and keep pasted bearer tokens. Share hosts for read-only tests and use a
-builder for isolated scenarios.
+Restore its development selector and cookie authentication metadata. Extract
+OpenAPI setup into helpers, preserve Swagger URLs, and link devdocs.
 
-All 48 isolated backend tests pass with warnings treated as errors. Browser
-checks with test authentication verified redirects and bearer headers; live
-Entra sign-in was not tested.
+53 isolated backend tests passed; two live database tests were skipped.
+Live Entra sign-in was not tested.
 ```
 
 Apply these preferences to the requested Git operation. For a message-only
